@@ -1,0 +1,50 @@
+{
+  "host_os": "macOS",
+  "bigdata": {
+    "linux_os": "Ubuntu 26.04 LTS",
+    "hadoop_version": "Hadoop 3.5.0",
+    "java_version": "openjdk version \"17.0.20\" 2026-07-21",
+    "total_words": 73,
+    "distinct_words": 46,
+    "top5": [
+      [
+        "data",
+        8
+      ],
+      [
+        "mapreduce",
+        5
+      ],
+      [
+        "hadoop",
+        4
+      ],
+      [
+        "hdfs",
+        3
+      ],
+      [
+        "in",
+        3
+      ]
+    ],
+    "problems": [
+      "实践初期发现原运行环境与题目要求的 Linux 环境存在差异，因此在 Ubuntu 26.04 LTS 中重新完成 Hadoop、HDFS 和 WordCount 实践。",
+      "重复运行 WordCount 时输出目录已存在会导致 Hadoop 拒绝执行，因此重新运行前清理对应输出目录。"
+    ]
+  },
+  "database": {
+    "mysql_version": "8.0.46",
+    "counts": {
+      "tblStudent": 10,
+      "tblCourse": 10,
+      "tblScore": 21
+    },
+    "invalid_scores": 0,
+    "orphan_scores": 0,
+    "problems": [
+      "本机默认数据库版本与课程实践环境存在差异，因此使用独立 MySQL 8.0 实例并通过 SELECT VERSION() 核验。",
+      "复核表结构时调整了总评成绩字段的自动计算方式，并重新完成建表、数据装载和完整性验证。"
+    ]
+  }
+}

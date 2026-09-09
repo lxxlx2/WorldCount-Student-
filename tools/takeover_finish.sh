@@ -15,12 +15,12 @@ chmod +x "$CAPTURE"
 CURRENT_BRANCH="$(git branch --show-current 2>/dev/null || true)"
 [[ "$CURRENT_BRANCH" == "$BRANCH" ]] || fail "当前分支是 $CURRENT_BRANCH，请先切到 $BRANCH。"
 
-TS="$(date +%Y%m%d-%H%M%S)"; BACKUP="$ROOT/.takeover-backup/$TS"; mkdir -p "$BACKUP"
-git status --short > "$BACKUP/git-status.txt" || true
-git diff > "$BACKUP/worktree.patch" || true
-git diff --cached > "$BACKUP/index.patch" || true
-find "$ROOT" -maxdepth 4 -type f -not -path "$ROOT/.git/*" -newermt '-3 hours' -print > "$BACKUP/recent-files.txt" 2>/dev/null || true
-log "已保存当前工作区快照到 $BACKUP，不会重置 Codex 留下的本地改动。"
+TS="$(date +%Y%m%d-%H%M%S)"; BACKUP="$ROOT/.takeover-backup/$TS"; mkdir -p "${BACKUP}"
+git status --short > "${BACKUP}/git-status.txt" || true
+git diff > "${BACKUP}/worktree.patch" || true
+git diff --cached > "${BACKUP}/index.patch" || true
+find "$ROOT" -maxdepth 4 -type f -not -path "$ROOT/.git/*" -newermt '-3 hours' -print > "${BACKUP}/recent-files.txt" 2>/dev/null || true
+log "已保存当前工作区快照到 ${BACKUP}，不会重置 Codex 留下的本地改动。"
 
 LINUX_KIND="${LINUX_KIND:-}"; LINUX_NAME="${LINUX_NAME:-}"
 try_multipass(){ command -v multipass >/dev/null 2>&1 || return 1; local n; while IFS= read -r n; do [[ -n "$n" ]] || continue; if multipass exec "$n" -- sh -lc 'test -r /etc/os-release && grep -qi ubuntu /etc/os-release' >/dev/null 2>&1; then LINUX_KIND=multipass; LINUX_NAME="$n"; return 0; fi; done < <(multipass list --format csv 2>/dev/null | awk -F, 'NR>1 && $2=="Running" {print $1}'); return 1; }
@@ -41,7 +41,15 @@ HDFS_BASE="/user/$EXAM_ID"
 linux_run "export HADOOP_HOME='$HADOOP_HOME_VM'; export PATH=\"\$HADOOP_HOME/bin:\$HADOOP_HOME/sbin:\$PATH\"; hdfs dfs -test -d '$HDFS_BASE/input'" >/dev/null 2>&1 || fail "HDFS 中没有 $HDFS_BASE/input。"
 linux_run "export HADOOP_HOME='$HADOOP_HOME_VM'; export PATH=\"\$HADOOP_HOME/bin:\$HADOOP_HOME/sbin:\$PATH\"; hdfs dfs -test -e '$HDFS_BASE/output/part-r-00000'" >/dev/null 2>&1 || fail "HDFS 中没有 WordCount 原始输出。"
 
-capture_terminal(){ local out="$1"; sleep .8; "$CAPTURE" Terminal "$out" >/dev/null; log "截图: ${out#$ROOT/}"; }
+capture_terminal(){
+  local out="$1"
+  log "即将自动截图: ${out#$ROOT/}"
+  osascript -e 'tell application "Terminal" to activate' >/dev/null 2>&1 || true
+  sleep 2
+  "$CAPTURE" Terminal "$out" >/dev/null
+  log "截图完成: ${out#$ROOT/}"
+  sleep 0.5
+}
 clear; printf '14899 实践真实环境验证\n\n'; linux_run "printf 'OS: '; source /etc/os-release; echo \"\$PRETTY_NAME\"; echo; java -version 2>&1 | head -n3; echo; '$HADOOP_BIN' version | head -n3"; capture_terminal "$BIG_REAL/01_linux_java.png"
 linux_text "printf 'OS: '; source /etc/os-release; echo \"\$PRETTY_NAME\"; java -version 2>&1 | head -n3; '$HADOOP_BIN' version | head -n3" > "$BIG_REAL/01_linux_java.txt"
 clear; printf '14899 Hadoop 核心配置\n\n'; linux_run "echo '[core-site.xml]'; sed -n '1,120p' '$HADOOP_HOME_VM/etc/hadoop/core-site.xml'; echo; echo '[hdfs-site.xml]'; sed -n '1,160p' '$HADOOP_HOME_VM/etc/hadoop/hdfs-site.xml'"; capture_terminal "$BIG_REAL/02_hadoop_config.png"
@@ -55,7 +63,7 @@ WC_OUT="$HDFS_BASE/output_takeover"; EXAMPLE_JAR="$(linux_text "find '$HADOOP_HO
 clear; printf '14899 WordCount 真实重跑\n\n'; linux_run "set -o pipefail; export HADOOP_HOME='$HADOOP_HOME_VM'; export PATH=\"\$HADOOP_HOME/bin:\$HADOOP_HOME/sbin:\$PATH\"; hdfs dfs -rm -r -f '$WC_OUT' >/dev/null 2>&1 || true; echo '$ hadoop jar ... wordcount $HDFS_BASE/input $WC_OUT'; '$HADOOP_BIN' jar '$EXAMPLE_JAR' wordcount '$HDFS_BASE/input' '$WC_OUT' 2>&1 | tail -n34"; capture_terminal "$BIG_REAL/06_wordcount_job.png"
 linux_text "export HADOOP_HOME='$HADOOP_HOME_VM'; export PATH=\"\$HADOOP_HOME/bin:\$HADOOP_HOME/sbin:\$PATH\"; hdfs dfs -rm -r -f '$WC_OUT' >/dev/null 2>&1 || true; '$HADOOP_BIN' jar '$EXAMPLE_JAR' wordcount '$HDFS_BASE/input' '$WC_OUT'" > "$BIG_REAL/06_wordcount_job.txt" 2>&1 || true
 clear; printf '14899 WordCount 输出 part-r-00000\n\n'; linux_run "export HADOOP_HOME='$HADOOP_HOME_VM'; export PATH=\"\$HADOOP_HOME/bin:\$HADOOP_HOME/sbin:\$PATH\"; hdfs dfs -cat '$WC_OUT/part-r-00000' | sed -n '1,45p'"; capture_terminal "$BIG_REAL/07_wordcount_result.png"
-WC_LOCAL="$BACKUP/part-r-00000"; linux_run "export HADOOP_HOME='$HADOOP_HOME_VM'; export PATH=\"\$HADOOP_HOME/bin:\$HADOOP_HOME/sbin:\$PATH\"; hdfs dfs -cat '$WC_OUT/part-r-00000'" > "$WC_LOCAL"
+WC_LOCAL="${BACKUP}/part-r-00000"; linux_run "export HADOOP_HOME='$HADOOP_HOME_VM'; export PATH=\"\$HADOOP_HOME/bin:\$HADOOP_HOME/sbin:\$PATH\"; hdfs dfs -cat '$WC_OUT/part-r-00000'" > "$WC_LOCAL"
 TOTAL_WORDS="$(awk '{s+=$2} END{print s+0}' "$WC_LOCAL")"; DISTINCT_WORDS="$(awk 'END{print NR+0}' "$WC_LOCAL")"; TOP5="$(sort -k2,2nr -k1,1 "$WC_LOCAL" | head -n5)"
 clear; printf '14899 WordCount 结果汇总\n\n单词总数: %s\n不同单词数量: %s\n\nTop 5:\n%s\n' "$TOTAL_WORDS" "$DISTINCT_WORDS" "$TOP5"; capture_terminal "$BIG_REAL/08_top5.png"
 VM_IP="$(linux_text "hostname -I 2>/dev/null | awk '{print \$1}'" | tail -n1)"; NN_URL=""; for url in "http://127.0.0.1:9870" "http://localhost:9870" "http://$VM_IP:9870"; do [[ "$url" != "http://:9870" ]] || continue; if curl -fsS --max-time 3 "$url" >/dev/null 2>&1; then NN_URL="$url"; break; fi; done
@@ -74,7 +82,8 @@ else MYSQL_PORT="${MYSQL_PORT:-3306}"; MYSQL_VERSION="$("$MYSQL_BIN" -h"$MYSQL_H
 [[ -n "${MYSQL_VERSION:-}" && "$MYSQL_VERSION" == 8.0.* ]] || fail "没有自动连接到 MySQL 8.0。可传 MYSQL80_BIN、MYSQL80_PORT，root 有密码时同时传 MYSQL_PWD。"
 log "MySQL 8.0 实例: $MYSQL_VERSION @ $MYSQL_HOST:$MYSQL_PORT"
 MYSQL=("$MYSQL_BIN" -h"$MYSQL_HOST" -P"$MYSQL_PORT" -uroot --default-character-set=utf8mb4 --table)
-"${MYSQL[@]}" < "$DB/sql/01_schema.sql"; "${MYSQL[@]}" < "$DB/sql/02_seed.sql"; "${MYSQL[@]}" < "$DB/sql/03_operations_and_queries.sql" > "$BACKUP/database-queries.txt"; "${MYSQL[@]}" < "$DB/sql/04_verification.sql" > "$BACKUP/database-verification.txt"
+MYSQL_RAW=("$MYSQL_BIN" -h"$MYSQL_HOST" -P"$MYSQL_PORT" -uroot --default-character-set=utf8mb4 --batch --skip-column-names)
+"${MYSQL[@]}" < "$DB/sql/01_schema.sql"; "${MYSQL[@]}" < "$DB/sql/02_seed.sql"; "${MYSQL[@]}" < "$DB/sql/03_operations_and_queries.sql" > "${BACKUP}/database-queries.txt"; "${MYSQL[@]}" < "$DB/sql/04_verification.sql" > "${BACKUP}/database-verification.txt"
 mkdir -p "$DB/sql/evidence_queries"
 cat > "$DB/sql/evidence_queries/01_environment.sql" <<'SQL'
 SELECT VERSION() AS mysql_version, @@version_comment AS version_comment, DATABASE() AS current_database;
@@ -135,9 +144,9 @@ capture_mysql_sql "$DB/sql/evidence_queries/05_student_summary.sql" "$DB_REAL/05
 capture_mysql_sql "$DB/sql/evidence_queries/06_high_scores.sql" "$DB_REAL/06_high_scores.png" "90分及以上学生名单"
 capture_mysql_sql "$DB/sql/evidence_queries/07_department_count.sql" "$DB_REAL/07_department_count.png" "各院系选课人数"
 capture_mysql_sql "$DB/sql/evidence_queries/08_view_index.sql" "$DB_REAL/08_view_index.png" "视图与索引验证"
-DB_COUNTS="$(${MYSQL[@]} -Nse "USE student_course_management; SELECT CONCAT((SELECT COUNT(*) FROM tblStudent),',',(SELECT COUNT(*) FROM tblCourse),',',(SELECT COUNT(*) FROM tblScore));" | tail -n1)"; IFS=, read -r DB_STUDENT DB_COURSE DB_SCORE <<< "$DB_COUNTS"
-INVALID_SCORES="$(${MYSQL[@]} -Nse "USE student_course_management; SELECT COUNT(*) FROM tblScore WHERE usual_score NOT BETWEEN 0 AND 100 OR final_score NOT BETWEEN 0 AND 100;" | tail -n1)"
-ORPHAN_SCORES="$(${MYSQL[@]} -Nse "USE student_course_management; SELECT COUNT(*) FROM tblScore sc LEFT JOIN tblStudent s ON s.student_id=sc.student_id LEFT JOIN tblCourse c ON c.course_id=sc.course_id WHERE s.student_id IS NULL OR c.course_id IS NULL;" | tail -n1)"
+DB_COUNTS="$("${MYSQL_RAW[@]}" -e "USE student_course_management; SELECT CONCAT((SELECT COUNT(*) FROM tblStudent),\',\',(SELECT COUNT(*) FROM tblCourse),\',\',(SELECT COUNT(*) FROM tblScore));" | tail -n1)"
+INVALID_SCORES="$("${MYSQL_RAW[@]}" -e "USE student_course_management; SELECT COUNT(*) FROM tblScore WHERE usual_score NOT BETWEEN 0 AND 100 OR final_score NOT BETWEEN 0 AND 100;" | tail -n1)"
+ORPHAN_SCORES="$("${MYSQL_RAW[@]}" -e "USE student_course_management; SELECT COUNT(*) FROM tblScore sc LEFT JOIN tblStudent s ON s.student_id=sc.student_id LEFT JOIN tblCourse c ON c.course_id=sc.course_id WHERE s.student_id IS NULL OR c.course_id IS NULL;" | tail -n1)"
 HOST_OS="$(sw_vers -productName) $(sw_vers -productVersion)"
 python3 - "$OUT/final_facts.json" <<PY
 import json,sys

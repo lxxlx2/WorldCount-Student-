@@ -1,0 +1,27 @@
+14899 大数据技术基础（实践）
+
+PASS Linux: Ubuntu 26.04 LTS
+PASS Hadoop: Hadoop 3.5.0
+PASS Java: openjdk version "17.0.20" 2026-07-21
+PASS HDFS: /user/010126323484/
+PASS WordCount
+PASS 单词总数: 73
+PASS 不同单词数量: 46
+
+08695 数据库及其应用操作（实践）
+
+PASS MySQL: 8.0.46
+PASS tblStudent: 10
+PASS tblCourse: 10
+PASS tblScore: 21
+PASS 非法成绩: 0
+PASS 外键孤儿记录: 0
+PASS 数据库真实截图: 8张
+
+最终仍需本人完成：
+
+1. 打开两份 DOCX/PDF 逐页检查排版、截图和身份信息。
+2. 检查并签署诚信承诺书。
+3. 完成知网查重。
+4. 完成 AIGC 检测。
+5. 按学校要求上传检测附件。

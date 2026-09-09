@@ -1,9 +1,12 @@
-WARNING: log4j.properties is not found. HADOOP_CONF_DIR may be incomplete.
-2026-09-09 08:55:42,321 WARN  [main] util.NativeCodeLoader (NativeCodeLoader.java:<clinit>(60)) - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+18628 DataNode
+18741 SecondaryNameNode
+18518 NameNode
+34953 Jps
+2026-09-09 09:15:17,137 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
 Configured Capacity: 3093999616 (2.88 GB)
-Present Capacity: 2511441676 (2.34 GB)
-DFS Remaining: 2511400960 (2.34 GB)
-DFS Used: 40716 (39.76 KB)
+Present Capacity: 2511430061 (2.34 GB)
+DFS Remaining: 2511388672 (2.34 GB)
+DFS Used: 41389 (40.42 KB)
 DFS Used%: 0.00%
 Replicated Blocks:
 	Under replicated blocks: 0
@@ -12,7 +15,7 @@ Replicated Blocks:
 	Missing blocks (with replication factor 1): 0
 	Badly Distributed Blocks: 0
 	Low redundancy blocks with highest priority to recover: 0
-	Pending deletion blocks: 1
+	Pending deletion blocks: 0
 Erasure Coded Block Groups: 
 	Low redundancy block groups: 0
 	Block groups with corrupt internal blocks: 0
@@ -28,9 +31,9 @@ Name: 127.0.0.1:9866 (localhost)
 Hostname: 192.168.5.15
 Decommission Status : Normal
 Configured Capacity: 3093999616 (2.88 GB)
-DFS Used: 40716 (39.76 KB)
-Non DFS Used: 582557940 (555.57 MB)
-DFS Remaining: 2511400960 (2.34 GB)
+DFS Used: 41389 (40.42 KB)
+Non DFS Used: 582569555 (555.58 MB)
+DFS Remaining: 2511388672 (2.34 GB)
 DFS Used%: 0.00%
 DFS Remaining%: 81.17%
 Configured Cache Capacity: 0 (0 B)
@@ -39,8 +42,8 @@ Cache Remaining: 0 (0 B)
 Cache Used%: 100.00%
 Cache Remaining%: 0.00%
 Xceivers: 0
-Last contact: Wed Sep 09 08:55:42 ICT 2026
+Last contact: Wed Sep 09 09:15:15 ICT 2026
 Last Block Report: Wed Sep 09 08:45:31 ICT 2026
-Num of Blocks: 3
+Num of Blocks: 5
 
 

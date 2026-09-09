@@ -1,3 +1,56 @@
+
+$ hdfs dfs -rm -r -f /user/010126323484/input /user/010126323484/output 
+WARNING: log4j.properties is not found. HADOOP_CONF_DIR may be incomplete.
+2026-09-09 08:55:35,381 WARN  [main] util.NativeCodeLoader (NativeCodeLoader.java:<clinit>(60)) - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Deleted /user/010126323484/input
+Deleted /user/010126323484/output
+
+$ hdfs dfs -rm -f /user/010126323484/article1_copy.txt /user/010126323484/article1_moved.txt 
+WARNING: log4j.properties is not found. HADOOP_CONF_DIR may be incomplete.
+2026-09-09 08:55:35,993 WARN  [main] util.NativeCodeLoader (NativeCodeLoader.java:<clinit>(60)) - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+
+$ hdfs dfs -mkdir -p /user/010126323484/input 
+WARNING: log4j.properties is not found. HADOOP_CONF_DIR may be incomplete.
+2026-09-09 08:55:36,597 WARN  [main] util.NativeCodeLoader (NativeCodeLoader.java:<clinit>(60)) - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+
+$ hdfs dfs -put input/article1.txt input/article2.txt input/article3.txt /user/010126323484/input/ 
+WARNING: log4j.properties is not found. HADOOP_CONF_DIR may be incomplete.
+2026-09-09 08:55:37,181 WARN  [main] util.NativeCodeLoader (NativeCodeLoader.java:<clinit>(60)) - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+
+$ hdfs dfs -ls /user/010126323484/input 
+WARNING: log4j.properties is not found. HADOOP_CONF_DIR may be incomplete.
+2026-09-09 08:55:37,898 WARN  [main] util.NativeCodeLoader (NativeCodeLoader.java:<clinit>(60)) - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Found 3 items
+-rw-r--r--   1 jerson supergroup        174 2026-09-09 08:55 /user/010126323484/input/article1.txt
+-rw-r--r--   1 jerson supergroup        162 2026-09-09 08:55 /user/010126323484/input/article2.txt
+-rw-r--r--   1 jerson supergroup        170 2026-09-09 08:55 /user/010126323484/input/article3.txt
+
+$ hdfs dfs -cat /user/010126323484/input/article1.txt 
+WARNING: log4j.properties is not found. HADOOP_CONF_DIR may be incomplete.
+2026-09-09 08:55:38,508 WARN  [main] util.NativeCodeLoader (NativeCodeLoader.java:<clinit>(60)) - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+hadoop stores large data across machines
+hadoop mapreduce processes data in parallel
+wordcount is a classic mapreduce example
+data becomes useful through reliable processing
+
+$ hdfs dfs -cp /user/010126323484/input/article1.txt /user/010126323484/article1_copy.txt 
+WARNING: log4j.properties is not found. HADOOP_CONF_DIR may be incomplete.
+2026-09-09 08:55:39,146 WARN  [main] util.NativeCodeLoader (NativeCodeLoader.java:<clinit>(60)) - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+
+$ hdfs dfs -mv /user/010126323484/article1_copy.txt /user/010126323484/article1_moved.txt 
+WARNING: log4j.properties is not found. HADOOP_CONF_DIR may be incomplete.
+2026-09-09 08:55:39,815 WARN  [main] util.NativeCodeLoader (NativeCodeLoader.java:<clinit>(60)) - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+
+$ hdfs dfs -get -f /user/010126323484/article1_moved.txt /Users/jerson/Documents/ChatGPT/db/bigdata_wordcount/result/downloaded-input.txt 
+WARNING: log4j.properties is not found. HADOOP_CONF_DIR may be incomplete.
+2026-09-09 08:55:40,423 WARN  [main] util.NativeCodeLoader (NativeCodeLoader.java:<clinit>(60)) - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+
+$ hdfs dfs -rm -f /user/010126323484/article1_moved.txt 
+WARNING: log4j.properties is not found. HADOOP_CONF_DIR may be incomplete.
+2026-09-09 08:55:41,096 WARN  [main] util.NativeCodeLoader (NativeCodeLoader.java:<clinit>(60)) - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Deleted /user/010126323484/article1_moved.txt
+
+$ hadoop jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.5.0.jar wordcount /user/010126323484/input /user/010126323484/output
 WARNING: log4j.properties is not found. HADOOP_CONF_DIR may be incomplete.
 2026-09-09 08:55:42,933 WARN  [main] util.NativeCodeLoader (NativeCodeLoader.java:<clinit>(60)) - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
 2026-09-09 08:55:43,353 INFO  [main] input.FileInputFormat (FileInputFormat.java:listStatus(303)) - Total input files to process : 3
@@ -282,3 +335,64 @@ WARNING: log4j.properties is not found. HADOOP_CONF_DIR may be incomplete.
 		Bytes Read=506
 	File Output Format Counters 
 		Bytes Written=418
+
+$ hdfs dfs -ls /user/010126323484/output 
+WARNING: log4j.properties is not found. HADOOP_CONF_DIR may be incomplete.
+2026-09-09 08:55:44,796 WARN  [main] util.NativeCodeLoader (NativeCodeLoader.java:<clinit>(60)) - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Found 2 items
+-rw-r--r--   1 jerson supergroup          0 2026-09-09 08:55 /user/010126323484/output/_SUCCESS
+-rw-r--r--   1 jerson supergroup        418 2026-09-09 08:55 /user/010126323484/output/part-r-00000
+
+$ hdfs dfs -cat /user/010126323484/output/part-r-00000 
+WARNING: log4j.properties is not found. HADOOP_CONF_DIR may be incomplete.
+2026-09-09 08:55:45,401 WARN  [main] util.NativeCodeLoader (NativeCodeLoader.java:<clinit>(60)) - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+a	1
+across	2
+and	2
+available	1
+becomes	1
+blocks	1
+classic	1
+counts	1
+data	8
+distributed	1
+divides	1
+each	1
+example	1
+hadoop	4
+hdfs	3
+in	3
+information	1
+input	1
+into	2
+is	1
+keeps	1
+large	1
+machines	2
+map	1
+mapreduce	5
+near	1
+parallel	1
+processes	1
+processing	2
+provides	1
+reduce	1
+reliable	2
+replication	1
+scales	1
+schedules	1
+stores	2
+systems	1
+tasks	2
+the	1
+through	1
+turn	1
+useful	1
+with	1
+word	1
+wordcount	2
+work	1
+
+$ hdfs dfs -get -f /user/010126323484/output/part-r-00000 /Users/jerson/Documents/ChatGPT/db/bigdata_wordcount/result/downloaded-part-r-00000 
+WARNING: log4j.properties is not found. HADOOP_CONF_DIR may be incomplete.
+2026-09-09 08:55:46,050 WARN  [main] util.NativeCodeLoader (NativeCodeLoader.java:<clinit>(60)) - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
