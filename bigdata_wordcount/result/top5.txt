@@ -1,0 +1,5 @@
+data	8
+mapreduce	5
+hadoop	4
+hdfs	3
+in	3

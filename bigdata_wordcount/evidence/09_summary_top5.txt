@@ -1,0 +1,12 @@
+$ awk '{sum += $2} END {print sum}' result/part-r-00000
+73
+$ awk 'END {print NR}' result/part-r-00000
+46
+$ sort -k2,2nr -k1,1 result/part-r-00000 | head -5
+data        8
+mapreduce   5
+hadoop      4
+hdfs        3
+in          3
+
+WORDCOUNT_VERIFY=PASS

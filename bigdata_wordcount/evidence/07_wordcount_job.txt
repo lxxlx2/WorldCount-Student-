@@ -1,0 +1,11 @@
+$ hadoop jar hadoop-mapreduce-examples-3.5.0.jar wordcount input output
+Total input files to process : 3
+number of splits:3
+Running job: job_local177670699_0001
+map 100% reduce 100%
+Job job_local177670699_0001 completed successfully
+Map input records=12
+Map output records=73
+Reduce input groups=46
+Reduce output records=46
+Failed Shuffles=0

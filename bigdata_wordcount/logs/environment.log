@@ -1,0 +1,12 @@
+Hadoop version
+Hadoop 3.5.0
+Source code repository https://github.com/apache/hadoop.git -r dbcc7cd797100e6b32cd84f85b53a5193a5f9af0
+
+Java version
+openjdk version "17.0.20.1" 2026-08-18
+OpenJDK Runtime Environment Homebrew (build 17.0.20.1+0)
+
+Hadoop processes
+2006 Jps
+94454 NameNode
+94521 DataNode

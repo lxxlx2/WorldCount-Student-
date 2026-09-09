@@ -1,0 +1,4 @@
+wordcount counts each word in the input
+hadoop schedules mapreduce tasks near data
+hdfs keeps data available with replication
+reliable systems turn data into information

@@ -1,0 +1,4 @@
+hdfs stores data in distributed blocks
+hadoop provides hdfs and mapreduce
+mapreduce divides work into map and reduce tasks
+data processing scales across machines

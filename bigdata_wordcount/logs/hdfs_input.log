@@ -1,0 +1,5 @@
+2026-09-09 07:10:43,774 WARN  [main] util.NativeCodeLoader (NativeCodeLoader.java:<clinit>(60)) - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Found 3 items
+-rw-r--r--   1 jerson supergroup        174 2026-09-09 07:10 /user/student_demo/input/article1.txt
+-rw-r--r--   1 jerson supergroup        162 2026-09-09 07:10 /user/student_demo/input/article2.txt
+-rw-r--r--   1 jerson supergroup        170 2026-09-09 07:10 /user/student_demo/input/article3.txt

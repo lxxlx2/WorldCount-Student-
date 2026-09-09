@@ -1,0 +1,40 @@
++-------------------------------------+
+| Tables_in_student_course_management |
++-------------------------------------+
+| tblCourse                           |
+| tblScore                            |
+| tblStudent                          |
+| vw_student_course_score             |
++-------------------------------------+
++-----------------+-------------------+------+-----+---------+-------+
+| Field           | Type              | Null | Key | Default | Extra |
++-----------------+-------------------+------+-----+---------+-------+
+| student_id      | char(10)          | NO   | PRI | NULL    |       |
+| student_name    | varchar(30)       | NO   |     | NULL    |       |
+| gender          | enum('男','女')   | NO   |     | NULL    |       |
+| birth_date      | date              | NO   |     | NULL    |       |
+| department      | varchar(50)       | NO   |     | NULL    |       |
+| enrollment_year | year              | NO   |     | NULL    |       |
+| phone           | varchar(20)       | NO   | UNI | NULL    |       |
++-----------------+-------------------+------+-----+---------+-------+
++---------------------+----------------------------------+------+-----+---------+-------+
+| Field               | Type                             | Null | Key | Default | Extra |
++---------------------+----------------------------------+------+-----+---------+-------+
+| course_id           | char(6)                          | NO   | PRI | NULL    |       |
+| course_name         | varchar(60)                      | NO   |     | NULL    |       |
+| credits             | tinyint unsigned                 | NO   |     | NULL    |       |
+| class_hours         | smallint unsigned                | NO   |     | NULL    |       |
+| course_type         | enum('必修','选修','公选')       | NO   |     | NULL    |       |
+| offering_department | varchar(50)                      | NO   |     | NULL    |       |
++---------------------+----------------------------------+------+-----+---------+-------+
++---------------+------------------+------+-----+---------+------------------+
+| Field         | Type             | Null | Key | Default | Extra            |
++---------------+------------------+------+-----+---------+------------------+
+| enrollment_id | int unsigned     | NO   | PRI | NULL    | auto_increment   |
+| student_id    | char(10)         | NO   | MUL | NULL    |                  |
+| course_id     | char(6)          | NO   | MUL | NULL    |                  |
+| usual_score   | tinyint unsigned | NO   |     | NULL    |                  |
+| final_score   | tinyint unsigned | NO   |     | NULL    |                  |
+| total_score   | decimal(5,2)     | YES  |     | NULL    | STORED GENERATED |
+| selected_at   | date             | NO   |     | NULL    |                  |
++---------------+------------------+------+-----+---------+------------------+

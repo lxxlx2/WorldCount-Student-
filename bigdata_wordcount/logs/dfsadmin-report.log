@@ -1,0 +1,45 @@
+2026-09-09 07:10:46,614 WARN  [main] util.NativeCodeLoader (NativeCodeLoader.java:<clinit>(60)) - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Configured Capacity: 994662584320 (926.35 GB)
+Present Capacity: 559370716104 (520.95 GB)
+DFS Remaining: 559370674176 (520.95 GB)
+DFS Used: 41928 (40.95 KB)
+DFS Used%: 0.00%
+Replicated Blocks:
+	Under replicated blocks: 0
+	Blocks with corrupt replicas: 0
+	Missing blocks: 0
+	Missing blocks (with replication factor 1): 0
+	Badly Distributed Blocks: 0
+	Low redundancy blocks with highest priority to recover: 0
+	Pending deletion blocks: 0
+Erasure Coded Block Groups: 
+	Low redundancy block groups: 0
+	Block groups with corrupt internal blocks: 0
+	Missing block groups: 0
+	Badly Distributed Blocks: 0
+	Low redundancy blocks with highest priority to recover: 0
+	Pending deletion blocks: 0
+
+-------------------------------------------------
+Live datanodes (1):
+
+Name: 127.0.0.1:9866 (localhost)
+Hostname: localhost
+Decommission Status : Normal
+Configured Capacity: 994662584320 (926.35 GB)
+DFS Used: 41928 (40.95 KB)
+Non DFS Used: 435291868216 (405.40 GB)
+DFS Remaining: 559370674176 (520.95 GB)
+DFS Used%: 0.00%
+DFS Remaining%: 56.24%
+Configured Cache Capacity: 0 (0 B)
+Cache Used: 0 (0 B)
+Cache Remaining: 0 (0 B)
+Cache Used%: 100.00%
+Cache Remaining%: 0.00%
+Xceivers: 1
+Last contact: Wed Sep 09 07:10:45 ICT 2026
+Last Block Report: Wed Sep 09 06:56:40 ICT 2026
+Num of Blocks: 4
+
+

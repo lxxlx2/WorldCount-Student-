@@ -1,0 +1,10 @@
+$ jps
+NameNode
+DataNode
+Jps
+
+$ hdfs dfsadmin -report | head
+Configured Capacity: 994662584320 (926.35 GB)
+Present Capacity: 559954432968 (521.50 GB)
+DFS Remaining: 559954391040 (521.50 GB)
+Live datanodes (1):

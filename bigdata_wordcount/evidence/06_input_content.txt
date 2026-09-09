@@ -1,0 +1,11 @@
+$ hdfs dfs -cat /user/student_demo/input/article1.txt
+hadoop stores large data across machines
+hadoop mapreduce processes data in parallel
+wordcount is a classic mapreduce example
+data becomes useful through reliable processing
+
+$ wc -l input/*.txt
+  4 input/article1.txt
+  4 input/article2.txt
+  4 input/article3.txt
+ 12 total

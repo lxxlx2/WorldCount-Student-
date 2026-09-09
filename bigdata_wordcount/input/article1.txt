@@ -1,0 +1,4 @@
+hadoop stores large data across machines
+hadoop mapreduce processes data in parallel
+wordcount is a classic mapreduce example
+data becomes useful through reliable processing

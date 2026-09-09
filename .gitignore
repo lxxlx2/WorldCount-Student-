@@ -1,0 +1,5 @@
+# Local render and extraction caches
+tmp/
+
+# macOS metadata
+.DS_Store

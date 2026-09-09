@@ -1,0 +1,16 @@
+$ hdfs dfs -cat /user/student_demo/output/part-r-00000
+a             1
+across        2
+and           2
+available     1
+data          8
+hadoop        4
+hdfs          3
+in            3
+mapreduce     5
+processing    2
+reliable      2
+stores        2
+tasks         2
+wordcount     2
+... 共 46 个不同单词

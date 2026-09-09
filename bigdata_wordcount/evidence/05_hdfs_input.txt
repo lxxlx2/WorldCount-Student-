@@ -1,0 +1,7 @@
+$ hdfs dfs -mkdir -p /user/student_demo/input
+$ hdfs dfs -put input/*.txt /user/student_demo/input/
+$ hdfs dfs -ls /user/student_demo/input
+Found 3 items
+-rw-r--r-- 1 jerson supergroup 174 2026-09-09 06:52 /user/student_demo/input/article1.txt
+-rw-r--r-- 1 jerson supergroup 162 2026-09-09 06:52 /user/student_demo/input/article2.txt
+-rw-r--r-- 1 jerson supergroup 170 2026-09-09 06:52 /user/student_demo/input/article3.txt

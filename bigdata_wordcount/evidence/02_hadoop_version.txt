@@ -1,0 +1,8 @@
+$ hadoop version
+Hadoop 3.5.0
+Source code repository https://github.com/apache/hadoop.git
+Compiled with protoc 3.25.6
+This command was run using /opt/homebrew/Cellar/hadoop/3.5.0/libexec/share/hadoop/common/hadoop-common-3.5.0.jar
+
+$ echo $HADOOP_HOME
+/opt/homebrew/opt/hadoop/libexec
